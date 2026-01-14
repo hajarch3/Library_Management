@@ -4,7 +4,7 @@
 }
 
 <main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
+    <h2 id="title">@ViewBag.Title</h2>
 
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
     {
@@ -12,24 +12,62 @@
         <h4>Créez un nouveau compte.</h4>
         <hr />
         @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="row">
-            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+
+        <!-- Full Name -->
+        <div class="row mb-3">
+            @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="row">
+
+        <!-- CIN -->
+        <div class="row mb-3">
+            @Html.LabelFor(m => m.CIN, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CIN, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CIN, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="row mb-3">
+            @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="row mb-3">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="row mb-3">
             @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="row">
+
+        <!-- Confirm Password -->
+        <div class="row mb-3">
             @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <!-- Submit Button -->
         <div class="row">
             <div class="offset-md-2 col-md-10">
                 <input type="submit" value="S'inscrire" class="btn btn-outline-dark" />

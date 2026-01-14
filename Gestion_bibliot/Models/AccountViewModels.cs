@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Gestion_bibliot.Models
@@ -70,16 +71,33 @@ namespace Gestion_bibliot.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "{0} doit contenir au moins {2} caractères.", MinimumLength = 6)]
+        [StringLength(100, MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mot de passe")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmer le mot de passe")]
-        [Compare("Password", ErrorMessage = "Le nouveau mot de passe et le mot de passe de confirmation ne correspondent pas.")]
+        [Compare("Password", ErrorMessage = "Le mot de passe et sa confirmation ne correspondent pas.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Nom complet")]
+        public string FullName { get; set; }
+
+        
+
+        [Required]
+        [Display(Name = "CIN")]
+        public string CIN { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date de naissance")]
+        public DateTime DateOfBirth { get; set; }
     }
+
+
 
     public class ResetPasswordViewModel
     {

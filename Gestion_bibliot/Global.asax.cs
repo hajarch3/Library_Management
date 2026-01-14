@@ -16,6 +16,8 @@ namespace Gestion_bibliot
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            IdentitySeeder.Seed();
         }
     }
 }
