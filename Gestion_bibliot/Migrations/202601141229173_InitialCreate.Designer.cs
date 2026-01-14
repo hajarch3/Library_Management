@@ -7,13 +7,13 @@ namespace Gestion_bibliot.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class AddLibraryEntities : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddLibraryEntities));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202601141052178_AddLibraryEntities"; }
+            get { return "202601141229173_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source
