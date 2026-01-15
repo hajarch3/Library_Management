@@ -1,32 +1,19 @@
 ﻿@model Gestion_bibliot.Models.Subscription
 
-@{
-    ViewBag.Title = "Subscription Details";
-}
+<div class="card">
+    <h3>Détails de l'abonnement</h3>
+    <hr />
 
-<h2>Détails de l'abonnement</h2>
-<hr />
+    <table class="table w-50">
+        <tr><th>User</th><td>@(Model.User != null ? Model.User.FullName : Model.UserId)</td></tr>
+        <tr><th>Start Date</th><td>@Model.StartDate.ToShortDateString()</td></tr>
+        <tr><th>End Date</th><td>@Model.EndDate.ToShortDateString()</td></tr>
+        <tr><th>Max Loans</th><td>@Model.MaxLoans</td></tr>
+        <tr><th>Status</th><td>@(Model.IsActive ? "Active" : "Inactive")</td></tr>
+    </table>
 
-<dl class="row">
-    <dt class="col-sm-3">User ID</dt>
-    <dd class="col-sm-9">@Model.UserId</dd>
-
-    <dt class="col-sm-3">Start Date</dt>
-    <dd class="col-sm-9">@Model.StartDate.ToShortDateString()</dd>
-
-    <dt class="col-sm-3">End Date</dt>
-    <dd class="col-sm-9">@Model.EndDate.ToShortDateString()</dd>
-
-    <dt class="col-sm-3">Max Loans</dt>
-    <dd class="col-sm-9">@Model.MaxLoans</dd>
-
-    <dt class="col-sm-3">Active</dt>
-    <dd class="col-sm-9">
-        @(Model.IsActive ? "Yes" : "No")
-    </dd>
-</dl>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
-</p>
+    <div class="mt-2">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-link" })
+    </div>
+</div>

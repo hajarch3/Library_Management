@@ -78,21 +78,47 @@ namespace Gestion_bibliot.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    // ✅ Fetch the user from the database
+                    // Fetch the user from the database
                     var user = await UserManager.FindByEmailAsync(model.Email);
 
-                    // ✅ Expire any past subscriptions
-                    var subscriptions = db.Subscriptions.Where(s => s.UserId == user.Id && s.IsActive).ToList();
-                    foreach (var sub in subscriptions)
+                    // Expire any past subscriptions
+                    if (user != null)
                     {
-                        if (sub.EndDate < DateTime.Today)
+                        var subscriptions = db.Subscriptions.Where(s => s.UserId == user.Id && s.IsActive).ToList();
+                        foreach (var sub in subscriptions)
                         {
-                            sub.IsActive = false;
+                            if (sub.EndDate < DateTime.Today)
+                            {
+                                sub.IsActive = false;
+                            }
+                        }
+                        db.SaveChanges();
+                    }
+
+                    // If a returnUrl was provided and is local, go there first
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    // Otherwise redirect based on role
+                    if (user != null)
+                    {
+                        if (await UserManager.IsInRoleAsync(user.Id, "Admin"))
+                        {
+                            return RedirectToAction("Index", "Book");
+                        }
+                        if (await UserManager.IsInRoleAsync(user.Id, "Librarian"))
+                        {
+                            return RedirectToAction("Loans", "Librarian");
+                        }
+                        if (await UserManager.IsInRoleAsync(user.Id, "Student"))
+                        {
+                            return RedirectToAction("Books", "Student");
                         }
                     }
-                    db.SaveChanges();
 
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Home");
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -279,7 +305,7 @@ namespace Gestion_bibliot.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         protected override void Dispose(bool disposing)
@@ -330,7 +356,7 @@ namespace Gestion_bibliot.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Account");
             }
         }
 
