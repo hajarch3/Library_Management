@@ -17,6 +17,7 @@ namespace Gestion_bibliot.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -71,21 +72,41 @@ namespace Gestion_bibliot.Controllers
                 return View(model);
             }
 
+            // Try to sign in
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
+                    // ✅ Fetch the user from the database
+                    var user = await UserManager.FindByEmailAsync(model.Email);
+
+                    // ✅ Expire any past subscriptions
+                    var subscriptions = db.Subscriptions.Where(s => s.UserId == user.Id && s.IsActive).ToList();
+                    foreach (var sub in subscriptions)
+                    {
+                        if (sub.EndDate < DateTime.Today)
+                        {
+                            sub.IsActive = false;
+                        }
+                    }
+                    db.SaveChanges();
+
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Tentative de connexion non valide.");
                     return View(model);
             }
         }
+
 
         // GET: /Account/VerifyCode
         [AllowAnonymous]

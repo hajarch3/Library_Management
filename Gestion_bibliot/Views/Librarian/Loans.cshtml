@@ -1,0 +1,41 @@
+@model IEnumerable<Gestion_bibliot.Models.LoanViewModel>
+
+@{
+    ViewBag.Title = "Liste des emprunts";
+}
+
+<h2>Liste des emprunts</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Étudiant</th>
+            <th>Livre</th>
+            <th>Auteur</th>
+            <th>Exemplaire </th>
+            <th>Date d'emprunt</th>
+            <th>Date de retour prévue</th>
+            <th>Date de retour réelle</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var loan in Model)
+    {
+        <tr>
+            <td>@loan.StudentName</td>
+            <td>@loan.BookTitle</td>
+            <td>@loan.AuthorFullName</td>
+            <td>@loan.CopyId</td>
+            <td>@loan.LoanDate.ToShortDateString()</td>
+            <td>@loan.DueDate.ToShortDateString()</td>
+            <td>@(loan.ReturnDate.HasValue ? loan.ReturnDate.Value.ToShortDateString() : "-")</td>
+            <td>@loan.Status</td>
+            <td>
+                @Html.ActionLink("Modifier", "EditLoan", new { id = loan.Id }, new { @class = "btn btn-primary btn-xs" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

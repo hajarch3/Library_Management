@@ -1,0 +1,87 @@
+@model IEnumerable<Gestion_bibliot.Models.Loan>
+
+@{
+    ViewBag.Title = "Mes emprunts";
+}
+
+<h2>Mes emprunts</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Livre</th>
+            <th>Auteur</th>
+            <th>Exemplaire (Copy Id)</th>
+            <th>Date d'emprunt</th>
+            <th>Date de retour prévue</th>
+            <th>Date de retour réelle</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var loan in Model)
+    {
+        var book = loan.Copy != null ? loan.Copy.Book : null;
+        <tr>
+            <td>@(book != null ? book.Title : "")</td>
+            <td>@(book != null && book.Author != null ? book.Author.FirstName + " " + book.Author.LastName : "")</td>
+            <td>@(loan.Copy != null ? loan.Copy.Id.ToString() : "")</td>
+            <td>@loan.LoanDate.ToShortDateString()</td>
+            <td>@loan.DueDate.ToShortDateString()</td>
+            <td>@(loan.ReturnDate.HasValue ? loan.ReturnDate.Value.ToShortDateString() : "-")</td>
+            <td>@loan.Status</td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div class="card">
+    <h3>Mes emprunts</h3>
+    <hr />
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">@TempData["Message"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <table class="table w-100">
+        <thead>
+            <tr>
+                <th>Livre</th>
+                <th>Auteur</th>
+                <th>Exemplaire</th>
+                <th>Date d'emprunt</th>
+                <th>Date de retour prévue</th>
+                <th>Date de retour réelle</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var loan in Model)
+        {
+            var book = loan.Copy != null ? loan.Copy.Book : null;
+            <tr>
+                <td>@(book != null ? book.Title : "-")</td>
+                <td>@(book != null && book.Author != null ? book.Author.FirstName + " " + book.Author.LastName : "-")</td>
+                <td>@(loan.Copy != null ? loan.Copy.Id.ToString() : "-")</td>
+                <td>@loan.LoanDate.ToShortDateString()</td>
+                <td>@loan.DueDate.ToShortDateString()</td>
+                <td>@(loan.ReturnDate.HasValue ? loan.ReturnDate.Value.ToShortDateString() : "-")</td>
+                <td>@loan.Status</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

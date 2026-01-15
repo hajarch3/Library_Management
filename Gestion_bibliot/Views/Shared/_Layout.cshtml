@@ -8,22 +8,82 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <!-- Theme styles for modern purple / off-white (views only) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--purple:#6a0dad;--purple-dark:#4b0082;--offwhite:#f8f6f2;--text:#222;--muted:#6b6b6b}
+        body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:var(--offwhite);color:var(--text);-webkit-font-smoothing:antialiased}
+        .custom-navbar{background:linear-gradient(90deg,var(--purple),var(--purple-dark));box-shadow:0 2px 12px rgba(75,0,130,0.12)}
+        .navbar-brand,.nav-link{color:#fff!important;font-weight:600}
+        .container.body-content{background:#fff;padding:28px;border-radius:12px;margin-top:24px;box-shadow:0 8px 24px rgba(12,12,12,0.06)}
+        .btn-primary{background:var(--purple);border-color:var(--purple-dark)}
+        .btn-primary:hover{background:var(--purple-dark)}
+        .table{border-collapse:separate;border-spacing:0 10px}
+        .table tbody tr{background:var(--offwhite);box-shadow:0 2px 6px rgba(12,12,12,0.04)}
+        .form-control{border-radius:8px}
+        footer{color:var(--muted)}
+        a{color:var(--purple)}
+    </style>
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm custom-navbar">
         <div class="container">
-            @Html.ActionLink("Nom d'application", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("LibNet", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Activer/désactiver la navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Accueil", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("À propos de", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Accueil", "Index", "Home", null, new { @class = "nav-link" })
+                    </li>
+
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            @Html.ActionLink("Users", "Index", "Admin", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Books", "Index", "Book", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Authors", "Index", "Author", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Copies", "Index", "Copy", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+                        </li>
+
+                    }
+
+                    @if (User.Identity.IsAuthenticated &&
+                        (User.IsInRole("Admin") || User.IsInRole("Librarian")))
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("Subscriptions", "Index", "Subscriptions", null, new { @class = "nav-link" })
+                        </li>
+                    }
+                    @if (User.IsInRole("Student"))
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("My Subscription", "Index", "MySubscription", null, new { @class = "nav-link" })
+                        <li>@Html.ActionLink("Books", "Books", "Student", null, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("My Loans", "MyLoans", "Student", null, new { @class = "nav-link" })</li>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Librarian"))
+                    {
+                        <li>@Html.ActionLink("Demandes d'emprunt", "PendingLoans", "Librarian", null, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Liste des emprunts", "Loans", "Librarian", null, new { @class = "nav-link" })</li>
+                    }
+
                 </ul>
-                 @Html.Partial("_LoginPartial")
+
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </nav>

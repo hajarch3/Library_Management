@@ -1,9 +1,10 @@
-﻿using Gestion_bibliot.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class Book
+namespace Gestion_bibliot.Models
 {
+    public class Book
+    {
     [Key]
     public int Id { get; set; }
 
@@ -28,4 +29,6 @@ public class Book
     // 👇 Image
     [StringLength(255)]
     public string ImagePath { get; set; }
+}
+
 }

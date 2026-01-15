@@ -170,8 +170,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
+    <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\CopyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LibrarianController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MySubscriptionController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\SubscriptionsController.cs" />
+    <Compile Include="DAL\DAL\Interfaces\IRepository.cs" />
+    <Compile Include="DAL\DAL\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="DAL\DAL\Repositories\Repository.cs" />
+    <Compile Include="DAL\DAL\Repositories\UnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,13 +191,23 @@
     <Compile Include="Migrations\202601141604075_initial.Designer.cs">
       <DependentUpon>202601141604075_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202601150039306_AddSubscriptionUserRelation.cs" />
+    <Compile Include="Migrations\202601150039306_AddSubscriptionUserRelation.Designer.cs">
+      <DependentUpon>202601150039306_AddSubscriptionUserRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202601150218175_AddLoanStatus.cs" />
+    <Compile Include="Migrations\202601150218175_AddLoanStatus.Designer.cs">
+      <DependentUpon>202601150218175_AddLoanStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminEditViewModel.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Copy.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Loan.cs" />
+    <Compile Include="Models\LoanViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Penalty.cs" />
     <Compile Include="Models\Subscription.cs" />
@@ -264,6 +286,36 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Author\Create.cshtml" />
+    <Content Include="Views\Author\Delete.cshtml" />
+    <Content Include="Views\Author\Details.cshtml" />
+    <Content Include="Views\Author\Edit.cshtml" />
+    <Content Include="Views\Author\Index.cshtml" />
+    <Content Include="Views\Book\Create.cshtml" />
+    <Content Include="Views\Book\Delete.cshtml" />
+    <Content Include="Views\Book\Details.cshtml" />
+    <Content Include="Views\Book\Edit.cshtml" />
+    <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Copy\Create.cshtml" />
+    <Content Include="Views\Copy\Delete.cshtml" />
+    <Content Include="Views\Copy\Details.cshtml" />
+    <Content Include="Views\Copy\Edit.cshtml" />
+    <Content Include="Views\Copy\Index.cshtml" />
+    <Content Include="Views\Subscriptions\Index.cshtml" />
+    <Content Include="Views\Subscriptions\Create.cshtml" />
+    <Content Include="Views\Subscriptions\Edit.cshtml" />
+    <Content Include="Views\Subscriptions\Details.cshtml" />
+    <Content Include="Views\MySubscription\Index.cshtml" />
+    <Content Include="Views\Student\BookDetails.cshtml" />
+    <Content Include="Views\Student\Books.cshtml" />
+    <Content Include="Views\Student\MyLoans.cshtml" />
+    <Content Include="Views\Librarian\EditLoan.cshtml" />
+    <Content Include="Views\Librarian\LoanDetails.cshtml" />
+    <Content Include="Views\Librarian\Loans.cshtml" />
+    <Content Include="Views\Librarian\PendingLoans.cshtml" />
+    <Content Include="Views\Subscriptions\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -298,6 +350,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202601141604075_initial.resx">
       <DependentUpon>202601141604075_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601150039306_AddSubscriptionUserRelation.resx">
+      <DependentUpon>202601150039306_AddSubscriptionUserRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202601150218175_AddLoanStatus.resx">
+      <DependentUpon>202601150218175_AddLoanStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

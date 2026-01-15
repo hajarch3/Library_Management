@@ -1,0 +1,43 @@
+@model Gestion_bibliot.Models.Copy
+@{
+    ViewBag.Title = "Modifier un exemplaire";
+}
+
+<h2>Modifier un exemplaire</h2>
+
+@using (Html.BeginForm("Edit", "Copy", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.Label("Livre")
+        <select name="BookId" id="BookId" class="form-control">
+            <option value="">-- Choisir un livre --</option>
+            @foreach (var item in ((SelectList)ViewBag.BookId))
+            {
+                <option value="@item.Value" @(item.Value == Model.BookId.ToString() ? "selected" : "")>
+                    @item.Text
+                </option>
+            }
+        </select>
+        @Html.ValidationMessageFor(m => m.BookId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ShelfLocation, "Emplacement sur l'étagère")
+        @Html.TextBoxFor(m => m.ShelfLocation, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ShelfLocation, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsAvailable, "Disponible")
+        @Html.CheckBoxFor(m => m.IsAvailable)
+        @Html.ValidationMessageFor(m => m.IsAvailable, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-default" })
+}

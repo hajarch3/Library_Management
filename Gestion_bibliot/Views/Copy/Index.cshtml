@@ -1,0 +1,45 @@
+@model IEnumerable<Gestion_bibliot.Models.Copy>
+@{
+    ViewBag.Title = "Liste des exemplaires";
+}
+
+<h2>Liste des exemplaires</h2>
+
+<p>
+    @Html.ActionLink("Ajouter un exemplaire", "Create", "Copy", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Photo</th>
+            <th>Livre</th>
+            <th>Numéro de l'exemplaire</th>
+            <th>Disponible</th>
+            <th>Emplacement</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.Book != null && !string.IsNullOrEmpty(item.Book.ImagePath))
+                {
+                    <img src="@Url.Content(item.Book.ImagePath)" alt="@item.Book.Title" style="max-height:80px;" />
+                }
+            </td>
+            <td>@(item.Book != null ? item.Book.Title : "")</td>
+            <td>@item.Id</td>
+            <td>@(item.IsAvailable ? "Oui" : "Non")</td>
+            <td>@item.ShelfLocation</td>
+            <td>
+                @Html.ActionLink("Modifier", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" })
+                @Html.ActionLink("Détails", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-info" })
+                @Html.ActionLink("Supprimer", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-danger" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

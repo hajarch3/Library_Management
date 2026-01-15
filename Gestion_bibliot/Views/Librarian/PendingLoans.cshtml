@@ -1,0 +1,67 @@
+@model IEnumerable<Gestion_bibliot.Models.Loan>
+
+@{
+    ViewBag.Title = "Demandes d'emprunt en attente";
+    var studentNames = ViewBag.StudentNames as System.Collections.Generic.Dictionary<string, string>;
+}
+
+<h2>Demandes d'emprunt en attente</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Étudiant</th>
+            <th>Livre</th>
+            <th>Auteur</th>
+            <th>Date de demande</th>
+            <th>Date de retour prévue</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var loan in Model)
+    {
+        var book = loan.Copy != null ? loan.Copy.Book : null;
+        var displayName = loan.UserId;
+        if (studentNames != null && studentNames.ContainsKey(loan.UserId))
+        {
+            displayName = studentNames[loan.UserId];
+        }
+        <tr>
+            <td>@displayName</td>
+            <td>@(book != null ? book.Title : "")</td>
+            <td>@(book != null && book.Author != null ? book.Author.FirstName + " " + book.Author.LastName : "")</td>
+            <td>@loan.LoanDate.ToShortDateString()</td>
+            <td>@loan.DueDate.ToShortDateString()</td>
+            <td>
+
+                @Html.ActionLink("Détails de la demande", "LoanDetails", "Librarian",
+                    new { id = loan.Id }, new { @class = "btn btn-default btn-sm" })
+
+                @using (Html.BeginForm("ApproveLoan", "Librarian", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", loan.Id)
+                    <button type="submit" class="btn btn-success btn-sm">Accepter</button>
+                }
+                @using (Html.BeginForm("RejectLoan", "Librarian", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", loan.Id)
+                    <button type="submit" class="btn btn-danger btn-sm">Refuser</button>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

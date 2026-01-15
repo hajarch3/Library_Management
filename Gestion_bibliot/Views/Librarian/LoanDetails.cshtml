@@ -1,0 +1,41 @@
+@model Gestion_bibliot.Models.Loan
+
+@{
+    ViewBag.Title = "Détails de la demande d'emprunt";
+    var studentName = ViewBag.StudentName as string ?? Model.UserId;
+}
+
+<h2>Détails de la demande d'emprunt</h2>
+
+<dl class="dl-horizontal">
+    <dt>Étudiant</dt>
+    <dd>@studentName</dd>
+
+    <dt>Statut</dt>
+    <dd>@Model.Status</dd>
+
+    <dt>Date de demande</dt>
+    <dd>@Model.LoanDate.ToShortDateString()</dd>
+
+    <dt>Date de retour prévue</dt>
+    <dd>@Model.DueDate.ToShortDateString()</dd>
+
+    @if (Model.Copy != null && Model.Copy.Book != null)
+    {
+        <dt>Livre</dt>
+        <dd>@Model.Copy.Book.Title</dd>
+
+        <dt>Auteur</dt>
+        <dd>@(Model.Copy.Book.Author != null ? Model.Copy.Book.Author.FirstName + " " + Model.Copy.Book.Author.LastName : "")</dd>
+    }
+
+    @if (Model.ReturnDate.HasValue)
+    {
+        <dt>Date de retour réelle</dt>
+        <dd>@Model.ReturnDate.Value.ToShortDateString()</dd>
+    }
+</dl>
+
+<p>
+    @Html.ActionLink("Retour aux demandes", "PendingLoans", "Librarian", null, new { @class = "btn btn-default" })
+</p>

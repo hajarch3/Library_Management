@@ -1,0 +1,61 @@
+@model Gestion_bibliot.Models.LoanViewModel
+
+@{
+    ViewBag.Title = "Modifier la date de retour";
+}
+
+<h2>Modifier la date de retour réelle</h2>
+
+<div>
+    <h4>Emprunt</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Étudiant</dt>
+        <dd>@Model.StudentName</dd>
+
+        <dt>Livre</dt>
+        <dd>@Model.BookTitle</dd>
+
+        <dt>Auteur</dt>
+        <dd>@Model.AuthorFullName</dd>
+
+        <dt>Exemplaire (Copy Id)</dt>
+        <dd>@Model.CopyId</dd>
+
+        <dt>Date d'emprunt</dt>
+        <dd>@Model.LoanDate.ToShortDateString()</dd>
+
+        <dt>Date de retour prévue</dt>
+        <dd>@Model.DueDate.ToShortDateString()</dd>
+
+        <dt>Statut</dt>
+        <dd>@Model.Status</dd>
+    </dl>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-horizontal">
+        <h4>Modifier uniquement la date de retour réelle</h4>
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ReturnDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.ReturnDate, new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(m => m.ReturnDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                @Html.ActionLink("Retour à la liste", "Loans", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

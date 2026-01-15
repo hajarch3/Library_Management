@@ -1,0 +1,33 @@
+@model List<Gestion_bibliot.Models.AdminEditViewModel>
+
+@{
+    ViewBag.Title = "Admin - Users";
+}
+
+<h2>Users</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Full Name</th>
+            <th>Role</th>
+            <th>Active</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var u in Model)
+    {
+        <tr>
+            <td>@u.Email</td>
+            <td>@u.FullName</td>
+            <td>@u.Role</td>
+            <td>@(u.IsActive ? "Yes" : "No")</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Admin", new { id = u.Id }, null)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

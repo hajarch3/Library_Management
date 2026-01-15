@@ -1,0 +1,46 @@
+﻿@model Gestion_bibliot.Models.Subscription
+
+<div class="card">
+    <h3>Modifier l'abonnement</h3>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserId)
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StartDate)
+                    @Html.TextBoxFor(model => model.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(model => model.StartDate)
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EndDate)
+                    @Html.TextBoxFor(model => model.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(model => model.EndDate)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaxLoans)
+            @Html.TextBoxFor(model => model.MaxLoans, new { @class = "form-control", type = "number", min = "1" })
+            @Html.ValidationMessageFor(model => model.MaxLoans)
+        </div>
+
+        <div class="form-group">
+            <label class="form-check-label">
+                @Html.CheckBoxFor(model => model.IsActive) Active
+            </label>
+        </div>
+
+        <div class="mt-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-link" })
+        </div>
+    }
+</div>

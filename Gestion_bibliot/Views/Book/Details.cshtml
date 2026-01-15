@@ -1,0 +1,55 @@
+@model Gestion_bibliot.Models.Book
+
+@{
+    ViewBag.Title = "Détails du livre";
+}
+
+<h2>Détails du livre</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Model.Title</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    <img src="@Model.ImagePath" alt="@Model.Title" class="img-responsive img-thumbnail" />
+                }
+                else
+                {
+                    <div class="text-center" style="padding: 50px; background: #f5f5f5;">
+                        <span class="glyphicon glyphicon-book" style="font-size: 100px; color: #ccc;"></span>
+                    </div>
+                }
+            </div>
+            <div class="col-md-9">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.Title)</dt>
+                    <dd>@Html.DisplayFor(model => model.Title)</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.ISBN)</dt>
+                    <dd>@Html.DisplayFor(model => model.ISBN)</dd>
+
+                    <dt>Auteur</dt>
+                    <dd>@(Model.Author != null ? Model.Author.FirstName + " " + Model.Author.LastName : "N/A")</dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.Category)</dt>
+                    <dd>@Html.DisplayFor(model => model.Category)</dd>
+                </dl>
+
+                @if (Model.Author != null && !string.IsNullOrEmpty(Model.Author.Biography))
+                {
+                    <h4>Biographie de l'auteur</h4>
+                    <p>@Model.Author.Biography</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>
+    <a href="@Url.Action("Edit", "Book", new { id = Model.Id })" class="btn btn-warning">Modifier</a>
+    <a href="@Url.Action("Index", "Book")" class="btn btn-default">Retour à la liste</a>
+</p>

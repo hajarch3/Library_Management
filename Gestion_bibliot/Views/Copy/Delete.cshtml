@@ -1,0 +1,31 @@
+@model Gestion_bibliot.Models.Copy
+@{
+    ViewBag.Title = "Supprimer un exemplaire";
+}
+
+<h2>Supprimer un exemplaire</h2>
+
+<h3>Êtes-vous sûr de vouloir supprimer cet exemplaire ?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>Livre</dt>
+        <dd>@(Model.Book != null ? Model.Book.Title : "")</dd>
+
+        <dt>Numéro de l'exemplaire</dt>
+        <dd>@Model.Id</dd>
+
+        <dt>Disponible</dt>
+        <dd>@(Model.IsAvailable ? "Oui" : "Non")</dd>
+
+        <dt>Emplacement</dt>
+        <dd>@Model.ShelfLocation</dd>
+    </dl>
+</div>
+
+@using (Html.BeginForm("Delete", "Copy", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+    @Html.ActionLink("Annuler", "Index", null, new { @class = "btn btn-default" })
+}

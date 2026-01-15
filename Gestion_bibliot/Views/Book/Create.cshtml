@@ -1,0 +1,44 @@
+@model Gestion_bibliot.Models.Book
+
+@{
+    ViewBag.Title = "Ajouter un livre";
+}
+
+<h2>Ajouter un livre</h2>
+
+@using (Html.BeginForm("Create", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title)
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ISBN)
+        @Html.TextBoxFor(m => m.ISBN, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ISBN, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Auteur")
+        @Html.DropDownListFor(m => m.AuthorId, (SelectList)ViewBag.AuthorId, "-- Choisir un auteur --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.AuthorId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Category)
+        @Html.TextBoxFor(m => m.Category, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Category, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Photo</label>
+        <input type="file" name="imageFile" accept="image/*" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+}

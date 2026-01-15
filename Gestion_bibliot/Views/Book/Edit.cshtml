@@ -1,0 +1,75 @@
+@model Gestion_bibliot.Models.Book
+
+@{
+    ViewBag.Title = "Modifier le livre";
+}
+
+<h2>Modifier le livre</h2>
+
+@using (Html.BeginForm("Edit", "Book", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ImagePath)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Title, "Titre")
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ISBN)
+                @Html.TextBoxFor(m => m.ISBN, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ISBN, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Auteur")
+                <select name="AuthorId" id="AuthorId" class="form-control">
+                    <option value="">-- Choisir un auteur --</option>
+                    @foreach (var item in ((SelectList)ViewBag.AuthorId))
+                    {
+                        <option value="@item.Value" @(item.Value == Model.AuthorId.ToString() ? "selected" : "")>
+                            @item.Text
+                        </option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(m => m.AuthorId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Category, "Catégorie")
+                @Html.TextBoxFor(m => m.Category, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Category, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>Nouvelle Photo (laisser vide pour garder l'actuelle)</label>
+                <input type="file" name="imageFile" accept="image/*" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <div class="form-group">
+                    <label>Photo actuelle</label>
+                    <div>
+                        <img src="@Model.ImagePath" alt="@Model.Title" class="img-responsive img-thumbnail" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+    <a href="@Url.Action("Index", "Book")" class="btn btn-default">Annuler</a>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

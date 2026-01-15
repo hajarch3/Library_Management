@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,9 @@ namespace Gestion_bibliot.Models
         [Required]
         public string UserId { get; set; }
 
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
@@ -25,7 +29,6 @@ namespace Gestion_bibliot.Models
         [Range(1, 10)]
         public int MaxLoans { get; set; }
 
-        [Required]
         public bool IsActive { get; set; }
     }
 }

@@ -31,5 +31,11 @@ namespace Gestion_bibliot.Models
 
         [DataType(DataType.Date)]
         public DateTime? ReturnDate { get; set; }
+        // <-- nouveau:
+
+        [Required]
+        [StringLength(20)]
+        public string Status { get; set; } // "Pending", "Approved", "Rejected"
+
     }
 }

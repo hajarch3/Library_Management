@@ -1,0 +1,32 @@
+﻿@model Gestion_bibliot.Models.Subscription
+
+@{
+    ViewBag.Title = "Subscription Details";
+}
+
+<h2>Détails de l'abonnement</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">User ID</dt>
+    <dd class="col-sm-9">@Model.UserId</dd>
+
+    <dt class="col-sm-3">Start Date</dt>
+    <dd class="col-sm-9">@Model.StartDate.ToShortDateString()</dd>
+
+    <dt class="col-sm-3">End Date</dt>
+    <dd class="col-sm-9">@Model.EndDate.ToShortDateString()</dd>
+
+    <dt class="col-sm-3">Max Loans</dt>
+    <dd class="col-sm-9">@Model.MaxLoans</dd>
+
+    <dt class="col-sm-3">Active</dt>
+    <dd class="col-sm-9">
+        @(Model.IsActive ? "Yes" : "No")
+    </dd>
+</dl>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+</p>

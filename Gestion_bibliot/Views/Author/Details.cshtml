@@ -1,0 +1,41 @@
+@model Gestion_bibliot.Models.Author
+
+@{
+    ViewBag.Title = "Détails de l'auteur";
+}
+
+<h2>Détails de l'auteur</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">@Model.FirstName @Model.LastName</h3>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(model => model.FirstName)</dt>
+            <dd>@Html.DisplayFor(model => model.FirstName)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.LastName)</dt>
+            <dd>@Html.DisplayFor(model => model.LastName)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Biography)</dt>
+            <dd>@Html.DisplayFor(model => model.Biography)</dd>
+        </dl>
+
+        @if (Model.Books != null && Model.Books.Any())
+        {
+            <h4>Livres de cet auteur</h4>
+            <ul>
+                @foreach (var book in Model.Books)
+                {
+                    <li>@book.Title (ISBN: @book.ISBN)</li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+<p>
+    <a href="@Url.Action("Edit", "Author", new { id = Model.Id })" class="btn btn-warning">Modifier</a>
+    <a href="@Url.Action("Index", "Author")" class="btn btn-default">Retour à la liste</a>
+</p>
