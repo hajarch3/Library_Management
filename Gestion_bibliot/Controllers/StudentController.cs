@@ -23,9 +23,7 @@ namespace Gestion_bibliot.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // ===============================
-        // BOOK LIST
-        // ===============================
+        
         public ActionResult Books()
         {
             var books = _unitOfWork.Repository<Book>().GetAll().ToList();
@@ -38,9 +36,7 @@ namespace Gestion_bibliot.Controllers
             return View(books);
         }
 
-        // ===============================
-        // BOOK DETAILS
-        // ===============================
+     
         public ActionResult BookDetails(int id)
         {
             var book = _unitOfWork.Repository<Book>().GetById(id);
@@ -51,16 +47,13 @@ namespace Gestion_bibliot.Controllers
             return View(book);
         }
 
-        // ===============================
-        // REQUEST LOAN
-        // ===============================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RequestLoan(int bookId)
         {
             var userId = User.Identity.GetUserId();
 
-            // 1️⃣ Active subscription check
+          
             var subscription = _unitOfWork.Repository<Subscription>()
                 .GetAll()
                 .FirstOrDefault(s =>
@@ -76,7 +69,6 @@ namespace Gestion_bibliot.Controllers
                 return RedirectToAction("Books");
             }
 
-            // 2️⃣ Max loans check (Pending + Approved)
             int activeLoansCount = _unitOfWork.Repository<Loan>()
                 .GetAll()
                 .Count(l =>
@@ -91,7 +83,6 @@ namespace Gestion_bibliot.Controllers
                 return RedirectToAction("Books");
             }
 
-            // 3️⃣ Available copy check
             var copy = _unitOfWork.Repository<Copy>()
                 .GetAll()
                 .FirstOrDefault(c => c.BookId == bookId && c.IsAvailable);
@@ -102,7 +93,6 @@ namespace Gestion_bibliot.Controllers
                 return RedirectToAction("Books");
             }
 
-            // 4️⃣ Create loan
             var loan = new Loan
             {
                 UserId = userId,
@@ -112,7 +102,7 @@ namespace Gestion_bibliot.Controllers
                 Status = "Pending"
             };
 
-            // 5️⃣ Block copy immediately
+           
             copy.IsAvailable = false;
             _unitOfWork.Repository<Copy>().Update(copy);
 
@@ -124,9 +114,7 @@ namespace Gestion_bibliot.Controllers
         }
 
 
-        // ===============================
-        // MY LOANS
-        // ===============================
+        
         public ActionResult MyLoans()
         {
             var userId = User.Identity.GetUserId();
@@ -157,9 +145,7 @@ namespace Gestion_bibliot.Controllers
             return View(loans);
         }
 
-        // ===============================
-        // CLEANUP
-        // ===============================
+       
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -44,7 +44,7 @@ namespace Gestion_bibliot.Controllers
                 }
             }
 
-            // Préparer un dictionnaire Id -> FullName pour tous les étudiants concernés
+            
             using (var db = new ApplicationDbContext())
             {
                 var userIds = loans.Select(l => l.UserId).Distinct().ToList();
@@ -79,7 +79,7 @@ namespace Gestion_bibliot.Controllers
                 }
             }
 
-            // Charger aussi le nom complet de l'étudiant pour l'affichage des détails
+            
             using (var db = new ApplicationDbContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Id == loan.UserId);
@@ -259,7 +259,7 @@ namespace Gestion_bibliot.Controllers
                     return HttpNotFound();
                 }
 
-                // ne permettre la modification que de la date de retour réelle
+                
                 loan.ReturnDate = model.ReturnDate;
 
                 db.SaveChanges();
@@ -281,7 +281,7 @@ namespace Gestion_bibliot.Controllers
                     return HttpNotFound();
                 }
 
-                // If the loan is approved and the copy is still not returned, free the copy
+                
                 if (loan.Status == "Approved" && !loan.ReturnDate.HasValue)
                 {
                     var copy = db.Copies.Find(loan.CopyId);

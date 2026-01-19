@@ -116,7 +116,7 @@ namespace Gestion_bibliot.Controllers
             {
                 return View(model);
             }
-            // Générer le jeton et l'envoyer
+            
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
             if (UserManager.SmsService != null)
             {
@@ -165,7 +165,7 @@ namespace Gestion_bibliot.Controllers
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
-            // Envoyer un SMS via le fournisseur SMS afin de vérifier le numéro de téléphone
+            
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
@@ -189,7 +189,7 @@ namespace Gestion_bibliot.Controllers
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
-            // Si nous sommes arrivés là, quelque chose a échoué, réafficher le formulaire
+            
             ModelState.AddModelError("", "La vérification du téléphone a échoué");
             return View(model);
         }
@@ -272,7 +272,7 @@ namespace Gestion_bibliot.Controllers
                 AddErrors(result);
             }
 
-            // Si nous sommes arrivés là, quelque chose a échoué, réafficher le formulaire
+            
             return View(model);
         }
 
